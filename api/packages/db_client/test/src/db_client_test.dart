@@ -79,6 +79,12 @@ void main() {
       );
     });
 
+    test('returns empty array when searching a non existent table', () async {
+      final users = await dbClient.findByField('users', 'name', 'John Doe');
+
+      expect(users, isEmpty);
+    });
+
     test('can update document by its id', () async {
       final id = await dbClient.add('users', {'name': 'John Doe'});
 
