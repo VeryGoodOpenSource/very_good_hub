@@ -14,8 +14,8 @@ class SessionRepository {
   const SessionRepository({
     required DbClient dbClient,
     DateTime Function()? now,
-  }) : _dbClient = dbClient,
-    _now = now ?? DateTime.now;
+  })  : _dbClient = dbClient,
+        _now = now ?? DateTime.now;
 
   final DateTime Function() _now;
 

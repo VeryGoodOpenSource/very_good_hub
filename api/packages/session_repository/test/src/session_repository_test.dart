@@ -112,8 +112,7 @@ void main() {
       () async {
         now = DateTime(2021);
 
-        when(() => dbClient.deleteById('sessions', 'id'))
-            .thenAnswer(
+        when(() => dbClient.deleteById('sessions', 'id')).thenAnswer(
           (_) async {},
         );
 
