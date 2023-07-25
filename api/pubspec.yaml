@@ -8,6 +8,14 @@ environment:
 
 dependencies:
   dart_frog: ^0.3.0
+  db_client:
+    path: packages/db_client
+  hub_domain:
+    path: packages/hub_domain
+  session_repository:
+    path: packages/session_repository
+  user_repository:
+    path: packages/user_repository
 
 dev_dependencies:
   mocktail: ^0.3.0
