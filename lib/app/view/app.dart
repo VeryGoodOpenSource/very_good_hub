@@ -2,7 +2,6 @@ import 'package:authentication_repository/authentication_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:very_good_hub/app/app.dart';
-import 'package:very_good_hub/app/bloc/app_bloc.dart';
 import 'package:very_good_hub/l10n/l10n.dart';
 
 class App extends StatelessWidget {
