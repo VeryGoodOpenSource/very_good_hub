@@ -47,10 +47,13 @@ void main() {
         when(
           () => apiClient.post(
             'auth/sign_in',
-            body: {
+            headers: {
+              HttpHeaders.contentTypeHeader: 'application/json',
+            },
+            body: jsonEncode({
               'username': 'username',
               'password': 'password',
-            },
+            }),
           ),
         ).thenAnswer((_) async => response);
 
@@ -74,10 +77,13 @@ void main() {
           when(
             () => apiClient.post(
               'auth/sign_in',
-              body: {
+              headers: {
+                HttpHeaders.contentTypeHeader: 'application/json',
+              },
+              body: jsonEncode({
                 'username': 'username',
                 'password': 'password',
-              },
+              }),
             ),
           ).thenAnswer((_) async => response);
 
@@ -99,10 +105,13 @@ void main() {
           when(
             () => apiClient.post(
               'auth/sign_in',
-              body: {
+              headers: {
+                HttpHeaders.contentTypeHeader: 'application/json',
+              },
+              body: jsonEncode({
                 'username': 'username',
                 'password': 'password',
-              },
+              }),
             ),
           ).thenThrow(Exception('Error'));
 
@@ -127,11 +136,14 @@ void main() {
         when(
           () => apiClient.post(
             'auth/sign_up',
-            body: {
+            headers: {
+              HttpHeaders.contentTypeHeader: 'application/json',
+            },
+            body: jsonEncode({
               'username': 'username',
               'name': 'name',
               'password': 'password',
-            },
+            }),
           ),
         ).thenAnswer((_) async => response);
 
@@ -144,11 +156,14 @@ void main() {
         verify(
           () => apiClient.post(
             'auth/sign_up',
-            body: {
+            headers: {
+              HttpHeaders.contentTypeHeader: 'application/json',
+            },
+            body: jsonEncode({
               'username': 'username',
               'name': 'name',
               'password': 'password',
-            },
+            }),
           ),
         ).called(1);
       });
@@ -164,11 +179,14 @@ void main() {
           when(
             () => apiClient.post(
               'auth/sign_up',
-              body: {
+              headers: {
+                HttpHeaders.contentTypeHeader: 'application/json',
+              },
+              body: jsonEncode({
                 'username': 'username',
                 'name': 'name',
                 'password': 'password',
-              },
+              }),
             ),
           ).thenAnswer((_) async => response);
 

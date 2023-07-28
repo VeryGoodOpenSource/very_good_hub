@@ -87,8 +87,6 @@ class AuthenticationRepository {
     } on AuthenticationFailure {
       rethrow;
     } catch (e, s) {
-      print(e);
-      print(s);
       throw AuthenticationFailure(cause: e, stackTrace: s);
     }
   }

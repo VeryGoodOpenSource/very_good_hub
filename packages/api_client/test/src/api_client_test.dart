@@ -7,7 +7,7 @@ class _MockResponse extends Mock implements Response {}
 
 abstract class _HttpClient {
   Future<Response> get(Uri url);
-  Future<Response> post(Uri url, {Object? body});
+  Future<Response> post(Uri url, {Object? body, Map<String, String>? headers});
 }
 
 class _MockHttpClient extends Mock implements _HttpClient {}
@@ -49,16 +49,30 @@ void main() {
 
     test('can do a post request', () async {
       final response = _MockResponse();
-      when(() => httpClient.post(any(), body: any(named: 'body')))
-          .thenAnswer((_) async => response);
+      when(
+        () => httpClient.post(
+          any(),
+          body: any(named: 'body'),
+          headers: any(named: 'headers'),
+        ),
+      ).thenAnswer((_) async => response);
 
-      final result = await apiClient.post('path', body: 'body');
+      final result = await apiClient.post(
+        'path',
+        body: 'body',
+        headers: {
+          'header': 'value',
+        },
+      );
 
       expect(result, equals(response));
       verify(
         () => httpClient.post(
           Uri.parse('https://example.com/path'),
           body: 'body',
+          headers: {
+            'header': 'value',
+          },
         ),
       );
     });
