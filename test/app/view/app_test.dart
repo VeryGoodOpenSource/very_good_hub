@@ -4,7 +4,7 @@ import 'package:mocktail/mocktail.dart';
 import 'package:very_good_hub/app/app.dart';
 
 class _MockAuthenticationRepository extends Mock
-implements AuthenticationRepository {}
+    implements AuthenticationRepository {}
 
 void main() {
   group('App', () {
