@@ -1,7 +1,36 @@
 {
     "@@locale": "en",
-    "counterAppBarTitle": "Counter",
-    "@counterAppBarTitle": {
-        "description": "Text shown in the AppBar of the Counter Page"
+    "welcomeMessage": "Welcome {user}",
+    "@welcomeMessage": {
+        "description": "Welcome message used in the home.",
+        "placeholders": {
+          "user": {
+            "type": "String"
+          }
+        }
+    },
+    "veryGoodHub": "Very Good Hub",
+    "@veryGoodHub": {
+        "description": "App title."
+    },
+    "appTagline": "Where unicons meet",
+    "@appTagline": {
+        "description": "App tag line."
+    },
+    "username": "Username",
+    "@username": {
+        "description": "Username label."
+    },
+    "password": "Password",
+    "@password": {
+        "description": "Password label."
+    },
+    "signIn": "Sign In",
+    "@singIn": {
+        "description": "Sign In label."
+    },
+    "authenticationFailed": "Authentication failed.",
+    "@authenticationFailed": {
+        "description": "Message for a failed authentication."
     }
 }

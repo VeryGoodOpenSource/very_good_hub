@@ -64,10 +64,13 @@ class AuthenticationRepository {
     try {
       final response = await _apiClient.post(
         'auth/sign_in',
-        body: {
+        headers: {
+          HttpHeaders.contentTypeHeader: 'application/json',
+        },
+        body: jsonEncode({
           'username': username,
           'password': password,
-        },
+        }),
       );
 
       if (response.statusCode == HttpStatus.ok) {
@@ -96,11 +99,14 @@ class AuthenticationRepository {
   }) async {
     final response = await _apiClient.post(
       'auth/sign_up',
-      body: {
+      headers: {
+        HttpHeaders.contentTypeHeader: 'application/json',
+      },
+      body: jsonEncode({
         'username': username,
         'name': name,
         'password': password,
-      },
+      }),
     );
 
     if (response.statusCode != HttpStatus.noContent) {
