@@ -21,16 +21,44 @@
     "@username": {
         "description": "Username label."
     },
+    "name": "Name",
+    "@name": {
+        "description": "Name label."
+    },
     "password": "Password",
     "@password": {
         "description": "Password label."
+    },
+    "confirmPassword": "Confirm Password",
+    "@confirmPassword": {
+        "description": "Confirm Password label."
     },
     "signIn": "Sign In",
     "@singIn": {
         "description": "Sign In label."
     },
+    "signUp": "Sign Up",
+    "@singUp": {
+        "description": "Sign Up label."
+    },
+    "or": "Or",
+    "@or": {
+        "description": "Or label."
+    },
     "authenticationFailed": "Authentication failed.",
     "@authenticationFailed": {
         "description": "Message for a failed authentication."
+    },
+    "signUpFailed": "Sign Up failed.",
+    "@signUpFailed": {
+        "description": "Message for a failed sign up."
+    },
+    "signUpSuccess": "Sign Up Success.",
+    "@signUpSuccess": {
+        "description": "Message for a success sign up."
+    },
+    "passwordDontMatch": "Passwords don't match.",
+    "@passwordDontMatch": {
+        "description": "Message for when passwords don't match in the sign up process."
     }
 }

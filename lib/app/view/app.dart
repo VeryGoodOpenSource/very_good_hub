@@ -2,6 +2,7 @@ import 'package:authentication_repository/authentication_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:very_good_hub/app/app.dart';
+import 'package:very_good_hub/auth/auth.dart';
 import 'package:very_good_hub/l10n/l10n.dart';
 
 class App extends StatelessWidget {
@@ -38,7 +39,7 @@ class App extends StatelessWidget {
               final appState = context.watch<AppBloc>().state;
               return (appState is AppAuthenticated)
                   ? const HomeView()
-                  : const SignInView();
+                  : const AuthPage();
             },
           ),
         ),

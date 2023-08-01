@@ -16,29 +16,6 @@ void main() {
       });
     });
 
-    group('AppLoading', () {
-      test('can be instantiated', () {
-        expect(AppLoading(), isNotNull);
-      });
-
-      test('supports equality', () {
-        expect(AppLoading(), equals(AppLoading()));
-      });
-    });
-
-    group('AppAuthenticationFailed', () {
-      test('can be instantiated', () {
-        expect(AppAuthenticationFailed(), isNotNull);
-      });
-
-      test('supports equality', () {
-        expect(
-          AppAuthenticationFailed(),
-          equals(AppAuthenticationFailed()),
-        );
-      });
-    });
-
     group('AppAuthenticated', () {
       final session1 = Session(
         id: '1',

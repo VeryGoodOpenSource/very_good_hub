@@ -13,7 +13,6 @@ class AppBloc extends Bloc<AppEvent, AppState> {
     required AuthenticationRepository authenticationRepository,
   })  : _authenticationRepository = authenticationRepository,
         super(const AppInitial()) {
-    on<AuthenticationRequested>(_onAuthenticationRequested);
     on<SessionLoaded>(_onSessionLoaded);
 
     _sessionSubscription = _authenticationRepository.session.listen((event) {
@@ -25,22 +24,6 @@ class AppBloc extends Bloc<AppEvent, AppState> {
 
   final AuthenticationRepository _authenticationRepository;
   late StreamSubscription<Session?> _sessionSubscription;
-
-  Future<void> _onAuthenticationRequested(
-    AuthenticationRequested event,
-    Emitter<AppState> emit,
-  ) async {
-    try {
-      emit(const AppLoading());
-      await _authenticationRepository.login(
-        username: event.username,
-        password: event.password,
-      );
-    } catch (e, s) {
-      addError(e, s);
-      emit(const AppAuthenticationFailed());
-    }
-  }
 
   void _onSessionLoaded(
     SessionLoaded event,
