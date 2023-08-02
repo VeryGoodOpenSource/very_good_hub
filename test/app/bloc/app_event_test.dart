@@ -6,41 +6,6 @@ import 'package:very_good_hub/app/app.dart';
 
 void main() {
   group('AppEvent', () {
-    group('AuthenticationRequested', () {
-      test('can be instantiated', () {
-        expect(
-          AuthenticationRequested(username: '', password: ''),
-          isNotNull,
-        );
-      });
-
-      test('supports equality', () {
-        expect(
-          AuthenticationRequested(username: '', password: ''),
-          equals(
-            AuthenticationRequested(username: '', password: ''),
-          ),
-        );
-        expect(
-          AuthenticationRequested(username: '', password: ''),
-          isNot(
-            equals(
-              AuthenticationRequested(username: 'u', password: ''),
-            ),
-          ),
-        );
-
-        expect(
-          AuthenticationRequested(username: '', password: ''),
-          isNot(
-            equals(
-              AuthenticationRequested(username: '', password: 'p'),
-            ),
-          ),
-        );
-      });
-    });
-
     group('SessionLoaded', () {
       final session1 = Session(
         id: '1',

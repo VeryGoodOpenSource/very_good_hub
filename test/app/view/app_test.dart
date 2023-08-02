@@ -2,6 +2,7 @@ import 'package:authentication_repository/authentication_repository.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:very_good_hub/app/app.dart';
+import 'package:very_good_hub/auth/auth.dart';
 
 class _MockAuthenticationRepository extends Mock
     implements AuthenticationRepository {}
@@ -21,7 +22,7 @@ void main() {
           authenticationRepository: authenticationRepository,
         ),
       );
-      expect(find.byType(SignInView), findsOneWidget);
+      expect(find.byType(AuthViewView), findsOneWidget);
     });
   });
 }
