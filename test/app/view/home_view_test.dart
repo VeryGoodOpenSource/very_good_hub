@@ -4,6 +4,7 @@ import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hub_domain/hub_domain.dart';
+import 'package:mockingjay/mockingjay.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:very_good_hub/app/app.dart';
 
@@ -33,34 +34,70 @@ void main() {
       expect(find.byType(HomeView), findsOneWidget);
     });
 
-    testWidgets('renders a welcome message when there is a session',
-        (tester) async {
-      mockState(
-        AppAuthenticated(
-          session: Session(
-            id: '1',
-            userId: '1',
-            token: 'token',
-            expiryDate: DateTime.now().add(const Duration(days: 1)),
-            createdAt: DateTime.now(),
+    testWidgets(
+      'renders the profile button when there is a session',
+      (tester) async {
+        mockState(
+          AppAuthenticated(
+            session: Session(
+              id: '1',
+              userId: '1',
+              token: 'token',
+              expiryDate: DateTime.now().add(const Duration(days: 1)),
+              createdAt: DateTime.now(),
+            ),
           ),
-        ),
-      );
-      await tester.pumpSuject(appBloc: appBloc);
-      expect(find.text('Welcome 1'), findsOneWidget);
-    });
+        );
+        await tester.pumpSuject(appBloc: appBloc);
+        expect(find.text('Profile.'), findsOneWidget);
+      },
+    );
+
+    testWidgets(
+      'navigates to the profile page when the profile button is tapped',
+      (tester) async {
+        mockState(
+          AppAuthenticated(
+            session: Session(
+              id: '1',
+              userId: '1',
+              token: 'token',
+              expiryDate: DateTime.now().add(const Duration(days: 1)),
+              createdAt: DateTime.now(),
+            ),
+          ),
+        );
+
+        final mockNavigator = MockNavigator();
+        when(() => mockNavigator.push<void>(any())).thenAnswer((_) async {});
+
+        await tester.pumpSuject(appBloc: appBloc, mockNavigator: mockNavigator);
+        await tester.tap(find.text('Profile.'));
+
+        await tester.pump();
+
+        verify(
+          () => mockNavigator.push<void>(any()),
+        ).called(1);
+      },
+    );
   });
 }
 
 extension on WidgetTester {
   Future<void> pumpSuject({
     required AppBloc appBloc,
+    MockNavigator? mockNavigator,
   }) async {
+    final child = BlocProvider<AppBloc>.value(
+      value: appBloc,
+      child: HomeView(),
+    );
+
     return pumpApp(
-      BlocProvider<AppBloc>.value(
-        value: appBloc,
-        child: HomeView(),
-      ),
+      mockNavigator != null
+          ? MockNavigatorProvider(navigator: mockNavigator, child: child)
+          : child,
     );
   }
 }

@@ -1,6 +1,8 @@
+import 'package:api_client/api_client.dart';
 import 'package:authentication_repository/authentication_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:user_repository/user_repository.dart';
 import 'package:very_good_hub/app/app.dart';
 import 'package:very_good_hub/auth/auth.dart';
 import 'package:very_good_hub/l10n/l10n.dart';
@@ -8,10 +10,14 @@ import 'package:very_good_hub/l10n/l10n.dart';
 class App extends StatelessWidget {
   const App({
     required this.authenticationRepository,
+    required this.userRepository,
+    required this.tokenProvider,
     super.key,
   });
 
   final AuthenticationRepository authenticationRepository;
+  final UserRepository userRepository;
+  final TokenProvider tokenProvider;
 
   @override
   Widget build(BuildContext context) {
@@ -20,10 +26,14 @@ class App extends StatelessWidget {
         RepositoryProvider.value(
           value: authenticationRepository,
         ),
+        RepositoryProvider.value(
+          value: userRepository,
+        ),
       ],
       child: BlocProvider(
         create: (_) => AppBloc(
           authenticationRepository: authenticationRepository,
+          tokenProvider: tokenProvider,
         ),
         child: MaterialApp(
           theme: ThemeData(

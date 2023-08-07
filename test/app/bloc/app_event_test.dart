@@ -45,5 +45,23 @@ void main() {
         );
       });
     });
+
+    group('SessionLoggedOff', () {
+      test('can be instantiated', () {
+        expect(
+          SessionLoggedOff(),
+          isNotNull,
+        );
+      });
+
+      test('supports equality', () {
+        expect(
+          SessionLoggedOff(),
+          equals(
+            SessionLoggedOff(),
+          ),
+        );
+      });
+    });
   });
 }

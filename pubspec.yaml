@@ -21,11 +21,14 @@ dependencies:
   hub_domain:
     path: api/packages/hub_domain
   intl: ^0.18.0
+  user_repository:
+    path: packages/user_repository
 
 dev_dependencies:
   bloc_test: ^9.1.2
   flutter_test:
     sdk: flutter
+  mockingjay: ^0.3.0
   mocktail: ^0.3.0
   very_good_analysis: ^5.0.0
 

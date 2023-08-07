@@ -1,4 +1,6 @@
 // ignore_for_file: prefer_const_constructors
+import 'dart:io';
+
 import 'package:api_client/api_client.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:test/test.dart';
@@ -6,16 +8,19 @@ import 'package:test/test.dart';
 class _MockResponse extends Mock implements Response {}
 
 abstract class _HttpClient {
-  Future<Response> get(Uri url);
+  Future<Response> get(Uri url, {Map<String, String>? headers});
   Future<Response> post(Uri url, {Object? body, Map<String, String>? headers});
 }
 
 class _MockHttpClient extends Mock implements _HttpClient {}
 
+class _MockTokenProvider extends Mock implements TokenProvider {}
+
 void main() {
   group('ApiClient', () {
     late _HttpClient httpClient;
     late ApiClient apiClient;
+    late TokenProvider tokenProvider;
 
     setUpAll(() {
       registerFallbackValue(Uri());
@@ -23,16 +28,21 @@ void main() {
 
     setUp(() {
       httpClient = _MockHttpClient();
+      tokenProvider = _MockTokenProvider();
       apiClient = ApiClient(
         baseUrl: 'https://example.com',
         get: httpClient.get,
         post: httpClient.post,
+        tokenProvider: tokenProvider,
       );
     });
 
     test('can be instantiated', () {
       expect(
-        ApiClient(baseUrl: 'https://example.com'),
+        ApiClient(
+          baseUrl: 'https://example.com',
+          tokenProvider: _MockTokenProvider(),
+        ),
         isNotNull,
       );
     });
@@ -75,6 +85,71 @@ void main() {
           },
         ),
       );
+    });
+
+    group('authenticated requests', () {
+      test('can do a get request', () async {
+        final response = _MockResponse();
+        when(
+          () => httpClient.get(
+            any(),
+            headers: any(
+              named: 'headers',
+            ),
+          ),
+        ).thenAnswer((_) async => response);
+        when(() => tokenProvider.current).thenAnswer((_) async => 'token');
+
+        final result = await apiClient.authenticatedGet('path');
+
+        expect(result, equals(response));
+        verify(
+          () => httpClient.get(
+            Uri.parse('https://example.com/path'),
+            headers: {
+              'Authorization': 'Bearer token',
+            },
+          ),
+        );
+      });
+
+      test('returns unauthorized when there is no token', () async {
+        final response = _MockResponse();
+        when(
+          () => httpClient.get(
+            any(),
+            headers: any(
+              named: 'headers',
+            ),
+          ),
+        ).thenAnswer((_) async => response);
+        when(() => tokenProvider.current).thenAnswer((_) async => null);
+
+        final result = await apiClient.authenticatedGet('path');
+
+        expect(result.statusCode, equals(HttpStatus.unauthorized));
+      });
+    });
+  });
+
+  group('TokenProvider', () {
+    test('can be instantiated', () {
+      expect(
+        TokenProvider(),
+        isNotNull,
+      );
+    });
+
+    test('can set the token', () async {
+      final tokenProvider = TokenProvider()..applyToken('token');
+      expect(await tokenProvider.current, equals('token'));
+    });
+
+    test('can clear the token', () async {
+      final tokenProvider = TokenProvider()..applyToken('token');
+      expect(await tokenProvider.current, equals('token'));
+      tokenProvider.clear();
+      expect(await tokenProvider.current, isNull);
     });
   });
 }

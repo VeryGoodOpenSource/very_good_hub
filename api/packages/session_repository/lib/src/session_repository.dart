@@ -35,8 +35,8 @@ class SessionRepository {
     final id = await _dbClient.add('sessions', {
       'token': token,
       'userId': userId,
-      'expiryDate': expiryDate,
-      'createdAt': createdAt,
+      'expiryDate': expiryDate.toIso8601String(),
+      'createdAt': createdAt.toIso8601String(),
     });
 
     final session = Session(
