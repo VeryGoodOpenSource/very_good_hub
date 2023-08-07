@@ -10,7 +10,7 @@ class TokenProvider {
   /// Sets the token.
   Future<String?> get current => Future.value(_token);
 
-  /// TODO(erickzanardo): Token will be saved in the local storage.
+  // TODO(erickzanardo): Token will be saved in the local storage.
   /// Sets the token.
   // ignore: use_setters_to_change_properties
   void applyToken(String? token) => _token = token;
