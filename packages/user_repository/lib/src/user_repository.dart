@@ -7,7 +7,9 @@ import 'package:hub_domain/hub_domain.dart';
 /// Exception thrown when there is no authenticated user.
 class AuthenticationFailure implements Exception {}
 
+/// {@template user_information_failure}
 ///  Exception thrown when there is an error getting user information.
+/// {@endtemplate}
 class UserInformationFailure implements Exception {
   /// {@macro user_information_failure}
   const UserInformationFailure({

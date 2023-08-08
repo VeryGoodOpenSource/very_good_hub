@@ -79,7 +79,7 @@ void main() {
     );
 
     blocTest<AppBloc, AppState>(
-      'clears the token when the the session is null',
+      'clears the token when the session is null',
       build: () => AppBloc(
         authenticationRepository: authenticationRepository,
         tokenProvider: tokenProvider,

@@ -23,7 +23,7 @@ void main() {
     });
 
     blocTest<ProfileBloc, ProfileState>(
-      'emits the profile when fetching data succeed',
+      'emits the profile when fetching data succeeds',
       build: () => ProfileBloc(
         userRepository: userRepository,
       ),
