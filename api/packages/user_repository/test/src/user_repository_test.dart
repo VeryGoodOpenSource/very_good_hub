@@ -199,5 +199,32 @@ void main() {
         expect(foundUser, isNull);
       },
     );
+
+    test('findUserById returns the user found', () async {
+      when(() => dbClient.getById(any(), any())).thenAnswer(
+        (_) async => {
+          'id': '1',
+          'username': 'test',
+          'name': 'Test',
+        },
+      );
+
+      final user = await userRepository.findUserById('1');
+      expect(
+        user,
+        equals(
+          User(id: '1', username: 'test', name: 'Test'),
+        ),
+      );
+    });
+
+    test('findUserById returns null when no user is found', () async {
+      when(() => dbClient.getById(any(), any())).thenAnswer(
+        (_) async => null,
+      );
+
+      final user = await userRepository.findUserById('1');
+      expect(user, isNull);
+    });
   });
 }

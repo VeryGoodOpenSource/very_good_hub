@@ -7,7 +7,11 @@ environment:
   sdk: ">=3.0.0 <4.0.0"
 
 dependencies:
-  dart_frog: ^0.3.0
+  dart_frog: ^1.0.0
+  dart_frog_auth:
+    git:
+      url: https://github.com/VeryGoodOpenSource/dart_frog.git
+      path: packages/dart_frog_auth
   db_client:
     path: packages/db_client
   hub_domain:

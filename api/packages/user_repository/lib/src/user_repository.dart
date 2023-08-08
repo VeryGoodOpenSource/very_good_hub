@@ -91,4 +91,15 @@ class UserRepository {
 
     return null;
   }
+
+  /// Returns a [User] that matches the provided [id].
+  Future<User?> findUserById(String id) async {
+    final data = await _dbClient.getById(_tableName, id);
+
+    if (data != null) {
+      return User.fromJson(data);
+    }
+
+    return null;
+  }
 }

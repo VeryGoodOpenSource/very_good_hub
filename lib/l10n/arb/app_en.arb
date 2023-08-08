@@ -60,5 +60,13 @@
     "passwordDontMatch": "Passwords don't match.",
     "@passwordDontMatch": {
         "description": "Message for when passwords don't match in the sign up process."
+    },
+    "profile": "Profile.",
+    "@profile": {
+        "description": "Profile label."
+    },
+    "somethingWentWrong": "Something went wrong.",
+    "@somethingWentWrong": {
+        "description": "Generic message for errors."
     }
 }

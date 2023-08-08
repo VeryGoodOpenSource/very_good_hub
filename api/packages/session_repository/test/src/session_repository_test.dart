@@ -39,8 +39,8 @@ void main() {
             'token': '95c08686abf0b97f7a251c6a9b45801eea'
                 '6f80bf82b157b71784401071e59cd2',
             'userId': 'user-id',
-            'expiryDate': DateTime(2021, 1, 2),
-            'createdAt': DateTime(2021),
+            'expiryDate': DateTime(2021, 1, 2).toIso8601String(),
+            'createdAt': DateTime(2021).toIso8601String(),
           },
         ),
       ).thenAnswer((_) async => 'id');

@@ -12,3 +12,10 @@ class SessionLoaded extends AppEvent {
   @override
   List<Object> get props => [session];
 }
+
+class SessionLoggedOff extends AppEvent {
+  const SessionLoggedOff();
+
+  @override
+  List<Object> get props => [];
+}
