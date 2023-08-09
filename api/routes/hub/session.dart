@@ -12,5 +12,5 @@ Future<Response> onRequest(RequestContext context) async {
 
 Future<Response> _onGet(RequestContext context) async {
   final apiSession = context.read<ApiSession>();
-  return Response.json(body: apiSession.user.toJson());
+  return Response.json(body: apiSession.session.toJson());
 }

@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:api_client/api_client.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:test/test.dart';
+import 'package:token_provider/token_provider.dart';
 
 class _MockResponse extends Mock implements Response {}
 
@@ -129,27 +130,6 @@ void main() {
 
         expect(result.statusCode, equals(HttpStatus.unauthorized));
       });
-    });
-  });
-
-  group('TokenProvider', () {
-    test('can be instantiated', () {
-      expect(
-        TokenProvider(),
-        isNotNull,
-      );
-    });
-
-    test('can set the token', () async {
-      final tokenProvider = TokenProvider()..applyToken('token');
-      expect(await tokenProvider.current, equals('token'));
-    });
-
-    test('can clear the token', () async {
-      final tokenProvider = TokenProvider()..applyToken('token');
-      expect(await tokenProvider.current, equals('token'));
-      tokenProvider.clear();
-      expect(await tokenProvider.current, isNull);
     });
   });
 }

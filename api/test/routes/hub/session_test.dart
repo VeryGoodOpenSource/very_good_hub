@@ -6,7 +6,7 @@ import 'package:mocktail/mocktail.dart';
 import 'package:test/test.dart';
 import 'package:very_good_hub_api/models/models.dart';
 
-import '../../../routes/hub/profile.dart' as route;
+import '../../../routes/hub/session.dart' as route;
 
 class _MockRequestContext extends Mock implements RequestContext {}
 
@@ -32,8 +32,8 @@ void main() {
 
     final apiSession = ApiSession(user: user, session: session);
 
-    group('GET /profile', () {
-      test('returns 200 with the user profile', () async {
+    group('GET /session', () {
+      test('returns 200 with the session', () async {
         final context = _MockRequestContext();
         final request = _MockRequest();
 
@@ -44,7 +44,7 @@ void main() {
         final response = await route.onRequest(context);
 
         expect(response.statusCode, equals(200));
-        expect(await response.json(), equals(user.toJson()));
+        expect(await response.json(), equals(session.toJson()));
       });
 
       test('returns method not allowed when not GET', () async {

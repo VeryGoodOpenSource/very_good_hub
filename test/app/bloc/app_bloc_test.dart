@@ -1,21 +1,25 @@
 // ignore_for_file: prefer_const_constructors
 
-import 'package:api_client/api_client.dart';
 import 'package:authentication_repository/authentication_repository.dart';
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hub_domain/hub_domain.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:token_provider/token_provider.dart';
+import 'package:user_repository/user_repository.dart';
 import 'package:very_good_hub/app/app.dart';
 
 class _MockAuthenticationRepository extends Mock
     implements AuthenticationRepository {}
+
+class _MockUserRepository extends Mock implements UserRepository {}
 
 class _MockTokenProvider extends Mock implements TokenProvider {}
 
 void main() {
   group('AppBloc', () {
     late AuthenticationRepository authenticationRepository;
+    late UserRepository userRepository;
     late TokenProvider tokenProvider;
     final now = DateTime.now();
 
@@ -24,7 +28,16 @@ void main() {
       when(() => authenticationRepository.session)
           .thenAnswer((_) => const Stream.empty());
 
+      userRepository = _MockUserRepository();
+
       tokenProvider = _MockTokenProvider();
+      when(() => tokenProvider.current).thenAnswer((invocation) async => null);
+      when(() => tokenProvider.applyToken(any())).thenAnswer(
+        (invocation) async {},
+      );
+      when(tokenProvider.clear).thenAnswer(
+        (invocation) async {},
+      );
     });
 
     test(
@@ -33,6 +46,7 @@ void main() {
         expect(
           AppBloc(
             authenticationRepository: authenticationRepository,
+            userRepository: userRepository,
             tokenProvider: tokenProvider,
           ).state,
           equals(AppInitial()),
@@ -45,6 +59,7 @@ void main() {
       'the provider',
       build: () => AppBloc(
         authenticationRepository: authenticationRepository,
+        userRepository: userRepository,
         tokenProvider: tokenProvider,
       ),
       setUp: () {
@@ -82,6 +97,7 @@ void main() {
       'clears the token when the session is null',
       build: () => AppBloc(
         authenticationRepository: authenticationRepository,
+        userRepository: userRepository,
         tokenProvider: tokenProvider,
       ),
       seed: () => AppAuthenticated(
@@ -106,6 +122,38 @@ void main() {
       verify: (_) {
         verify(() => tokenProvider.clear()).called(1);
       },
+    );
+
+    blocTest<AppBloc, AppState>(
+      'emits [authenticated] when there is already a token and a valid session',
+      build: () => AppBloc(
+        authenticationRepository: authenticationRepository,
+        userRepository: userRepository,
+        tokenProvider: tokenProvider,
+      ),
+      setUp: () {
+        when(() => tokenProvider.current).thenAnswer((_) async => 'token');
+        when(userRepository.getUserSession).thenAnswer(
+          (_) async => Session(
+            id: 'mock-user-id',
+            userId: 'userId',
+            token: 'token',
+            createdAt: now,
+            expiryDate: now.add(const Duration(days: 1)),
+          ),
+        );
+      },
+      expect: () => [
+        AppAuthenticated(
+          session: Session(
+            id: 'mock-user-id',
+            userId: 'userId',
+            token: 'token',
+            createdAt: now,
+            expiryDate: now.add(const Duration(days: 1)),
+          ),
+        ),
+      ],
     );
   });
 }
