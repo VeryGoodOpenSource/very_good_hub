@@ -55,7 +55,7 @@ void main() {
       expect(token, equals('token'));
     });
 
-    test('returns the memory token when one', () async {
+    test('returns the memory token when one exists', () async {
       final tokenProvider = TokenProvider(
         storeToken: (_) async {},
         clearToken: () async {},
