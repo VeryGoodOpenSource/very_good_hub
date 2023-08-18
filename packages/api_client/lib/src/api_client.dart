@@ -2,22 +2,7 @@ import 'dart:io';
 
 import 'package:api_client/api_client.dart';
 import 'package:http/http.dart' as http;
-
-/// A provider used by [ApiClient] to get an authentication token.
-class TokenProvider {
-  String? _token;
-
-  /// Sets the token.
-  Future<String?> get current => Future.value(_token);
-
-  // TODO(erickzanardo): Token will be saved in the local storage.
-  /// Sets the token.
-  // ignore: use_setters_to_change_properties
-  void applyToken(String? token) => _token = token;
-
-  /// Clears the token.
-  void clear() => _token = null;
-}
+import 'package:token_provider/token_provider.dart';
 
 /// {@template api_client}
 /// Client to access the APIs of Very Good Hub.

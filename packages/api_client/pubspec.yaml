@@ -8,6 +8,8 @@ environment:
 
 dependencies:
   http: ^1.1.0
+  token_provider:
+    path: ../token_provider
 
 dev_dependencies:
   mocktail: ^0.3.0

@@ -1,7 +1,7 @@
-import 'package:api_client/api_client.dart';
 import 'package:authentication_repository/authentication_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:token_provider/token_provider.dart';
 import 'package:user_repository/user_repository.dart';
 import 'package:very_good_hub/app/app.dart';
 import 'package:very_good_hub/auth/auth.dart';
@@ -34,6 +34,7 @@ class App extends StatelessWidget {
         create: (_) => AppBloc(
           authenticationRepository: authenticationRepository,
           tokenProvider: tokenProvider,
+          userRepository: userRepository,
         ),
         child: MaterialApp(
           theme: ThemeData(

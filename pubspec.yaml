@@ -21,6 +21,9 @@ dependencies:
   hub_domain:
     path: api/packages/hub_domain
   intl: ^0.18.0
+  shared_preferences: ^2.2.0
+  token_provider:
+    path: packages/token_provider
   user_repository:
     path: packages/user_repository
 

@@ -54,4 +54,24 @@ class UserRepository {
       return User.fromJson(json);
     }
   }
+
+  /// Gets the session.
+  Future<Session> getUserSession() async {
+    final response = await _apiClient.authenticatedGet(
+      'hub/session',
+    );
+
+    if (response.statusCode == HttpStatus.unauthorized) {
+      throw AuthenticationFailure();
+    } else if (response.statusCode != HttpStatus.ok) {
+      throw UserInformationFailure(
+        message: 'Error getting user session:\n${response.statusCode}'
+            '\n${response.body}',
+        stackTrace: StackTrace.current,
+      );
+    } else {
+      final json = jsonDecode(response.body) as Map<String, dynamic>;
+      return Session.fromJson(json);
+    }
+  }
 }
