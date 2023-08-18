@@ -19,7 +19,7 @@ dependencies:
   flutter_localizations:
     sdk: flutter
   hub_domain:
-    path: api/packages/hub_domain
+    path: ../packages/hub_domain
   intl: ^0.18.0
   shared_preferences: ^2.2.0
   token_provider:
@@ -31,8 +31,8 @@ dev_dependencies:
   bloc_test: ^9.1.2
   flutter_test:
     sdk: flutter
-  mockingjay: ^0.3.0
-  mocktail: ^0.3.0
+  mockingjay: ^0.4.0
+  mocktail: ^1.0.0
   very_good_analysis: ^5.0.0
 
 flutter:

@@ -10,8 +10,8 @@ dependencies:
   api_client:
     path: ../api_client
   hub_domain:
-    path: ../../api/packages/hub_domain
-  mocktail: ^0.3.0
+    path: ../../../packages/hub_domain
+  mocktail: ^1.0.0
   rxdart: ^0.27.7
   test: ^1.19.2
   very_good_analysis: ^5.0.0

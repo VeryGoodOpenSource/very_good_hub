@@ -7,7 +7,7 @@ concurrency:
 on:
   pull_request:
     paths:
-      - "packages/api_client/**"
+      - "hub_app/packages/api_client/**"
       - ".github/workflows/hub_api_client.yaml"
     branches:
       - main
@@ -17,4 +17,4 @@ jobs:
     uses: VeryGoodOpenSource/very_good_workflows/.github/workflows/dart_package.yml@v1
     with:
       dart_sdk: stable
-      working_directory: packages/api_client
+      working_directory: hub_app/packages/api_client
