@@ -8,10 +8,7 @@ environment:
 
 dependencies:
   dart_frog: ^1.0.0
-  dart_frog_auth:
-    git:
-      url: https://github.com/VeryGoodOpenSource/dart_frog.git
-      path: packages/dart_frog_auth
+  dart_frog_auth: ^1.1.0
   db_client:
     path: packages/db_client
   hub_domain:
