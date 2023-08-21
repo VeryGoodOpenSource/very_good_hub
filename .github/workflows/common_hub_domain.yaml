@@ -7,8 +7,8 @@ concurrency:
 on:
   pull_request:
     paths:
-      - "api/packages/hub_domain/**"
-      - ".github/workflows/api_hub_domain.yaml"
+      - "packages/hub_domain/**"
+      - ".github/workflows/common_hub_domain.yaml"
     branches:
       - main
 
@@ -17,4 +17,4 @@ jobs:
     uses: VeryGoodOpenSource/very_good_workflows/.github/workflows/dart_package.yml@v1
     with:
       dart_sdk: stable
-      working_directory: api/packages/hub_domain
+      working_directory: packages/hub_domain

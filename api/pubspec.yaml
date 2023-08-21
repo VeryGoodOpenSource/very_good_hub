@@ -15,7 +15,7 @@ dependencies:
   db_client:
     path: packages/db_client
   hub_domain:
-    path: packages/hub_domain
+    path: ../packages/hub_domain
   session_repository:
     path: packages/session_repository
   shelf_cors_headers: ^0.1.5
@@ -23,6 +23,6 @@ dependencies:
     path: packages/user_repository
 
 dev_dependencies:
-  mocktail: ^0.3.0
+  mocktail: ^1.0.0
   test: ^1.19.2
   very_good_analysis: ^5.0.0
