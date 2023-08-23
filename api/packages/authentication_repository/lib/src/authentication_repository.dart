@@ -38,8 +38,8 @@ class AuthenticationRepository {
     JWTVerifier jwtVerifier = JWT.verify,
   })  : _secret = secret,
         _issuer = issuer,
-  _jwtBuilder = jwtBuilder,
-  _jwtVerifier = jwtVerifier;
+        _jwtBuilder = jwtBuilder,
+        _jwtVerifier = jwtVerifier;
 
   final String _secret;
   final String _issuer;
