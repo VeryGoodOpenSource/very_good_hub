@@ -79,7 +79,7 @@ void main() {
       expect(called, isTrue);
     });
 
-    test('returns null when the is no authorization token', () async {
+    test("don't call the handler when there is no authorization token", () async {
       when(() => request.headers).thenReturn(
         {},
       );
@@ -95,7 +95,7 @@ void main() {
       expect(called, isFalse);
     });
 
-    test('returns null when the token is not valid', () async {
+    test("don't call the handler when the token is not valid", () async {
       when(() => authenticationRepository.verify('TOKEN'))
           .thenThrow(Exception());
 
