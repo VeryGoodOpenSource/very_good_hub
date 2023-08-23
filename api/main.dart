@@ -32,7 +32,7 @@ Future<HttpServer> run(Handler handler, InternetAddress ip, int port) async {
 String get _secret {
   final value = Platform.environment['SECRET'];
   if (value == null) {
-    stdout.writeln('No secret informed, running with development settings');
+    stdout.writeln('No secret provided, running with development settings');
     return 'two is not one, which is not three, but is a number';
   }
   return value;
@@ -41,7 +41,7 @@ String get _secret {
 String get _issuer {
   final value = Platform.environment['ISSUER'];
   if (value == null) {
-    stdout.writeln('No issuer informed, running with development settings');
+    stdout.writeln('No issuer provided, running with development settings');
     return 'https://localhost:8080';
   }
   return value;
