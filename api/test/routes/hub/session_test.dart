@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:authentication_repository/authentication_repository.dart';
 import 'package:dart_frog/dart_frog.dart';
 import 'package:hub_domain/hub_domain.dart';
 import 'package:mocktail/mocktail.dart';
@@ -7,6 +8,9 @@ import 'package:test/test.dart';
 import 'package:very_good_hub_api/models/models.dart';
 
 import '../../../routes/hub/session.dart' as route;
+
+class _MockAuthenticationRepository extends Mock
+    implements AuthenticationRepository {}
 
 class _MockRequestContext extends Mock implements RequestContext {}
 
@@ -33,18 +37,32 @@ void main() {
     final apiSession = ApiSession(user: user, session: session);
 
     group('GET /session', () {
-      test('returns 200 with the session', () async {
+      test('returns 200 with the signed session', () async {
         final context = _MockRequestContext();
         final request = _MockRequest();
+        final authenticationRepository = _MockAuthenticationRepository();
 
         when(() => context.request).thenReturn(request);
         when(() => request.method).thenReturn(HttpMethod.get);
         when(() => context.read<ApiSession>()).thenReturn(apiSession);
+        when(() => context.read<AuthenticationRepository>())
+            .thenReturn(authenticationRepository);
+
+        when(
+          () => authenticationRepository.sign(
+            session.toJson(),
+          ),
+        ).thenReturn('super secured session token');
 
         final response = await route.onRequest(context);
 
         expect(response.statusCode, equals(200));
-        expect(await response.json(), equals(session.toJson()));
+        expect(
+          await response.json(),
+          equals(
+            {'token': 'super secured session token'},
+          ),
+        );
       });
 
       test('returns method not allowed when not GET', () async {

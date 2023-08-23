@@ -56,7 +56,7 @@ class UserRepository {
   }
 
   /// Gets the session.
-  Future<Session> getUserSession() async {
+  Future<String> getUserSession() async {
     final response = await _apiClient.authenticatedGet(
       'hub/session',
     );
@@ -71,7 +71,7 @@ class UserRepository {
       );
     } else {
       final json = jsonDecode(response.body) as Map<String, dynamic>;
-      return Session.fromJson(json);
+      return json['token'] as String;
     }
   }
 }

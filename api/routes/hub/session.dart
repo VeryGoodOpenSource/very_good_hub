@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:authentication_repository/authentication_repository.dart';
 import 'package:dart_frog/dart_frog.dart';
 import 'package:very_good_hub_api/models/models.dart';
 
@@ -12,5 +13,8 @@ Future<Response> onRequest(RequestContext context) async {
 
 Future<Response> _onGet(RequestContext context) async {
   final apiSession = context.read<ApiSession>();
-  return Response.json(body: apiSession.session.toJson());
+  final authenticationRepository = context.read<AuthenticationRepository>();
+
+  final token = authenticationRepository.sign(apiSession.session.toJson());
+  return Response.json(body: {'token': token});
 }

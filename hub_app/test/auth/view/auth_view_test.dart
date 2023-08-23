@@ -4,7 +4,6 @@ import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:hub_domain/hub_domain.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:very_good_hub/app/app.dart';
 import 'package:very_good_hub/auth/auth.dart';
@@ -43,13 +42,7 @@ void main() {
     setUpAll(() {
       registerFallbackValue(
         SessionLoaded(
-          session: Session(
-            id: '',
-            userId: '',
-            token: '',
-            expiryDate: DateTime.now(),
-            createdAt: DateTime.now(),
-          ),
+          sessionToken: '',
         ),
       );
       registerFallbackValue(

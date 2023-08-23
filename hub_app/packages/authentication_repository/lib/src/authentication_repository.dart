@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:api_client/api_client.dart';
-import 'package:hub_domain/hub_domain.dart';
 import 'package:rxdart/rxdart.dart';
 
 /// {@template authentication_failure}
@@ -50,11 +49,11 @@ class AuthenticationRepository {
 
   final ApiClient _apiClient;
 
-  final _sessionsSubject = BehaviorSubject<Session?>();
+  final _sessionsSubject = BehaviorSubject<String?>();
 
-  /// Stream of [Session]s which will emit the current session
+  /// Stream of session tokens which will emit the current session
   /// when authentication changes.
-  Stream<Session?> get session => _sessionsSubject.stream;
+  Stream<String?> get session => _sessionsSubject.stream;
 
   /// Login with [username] and [password]
   Future<void> login({
@@ -75,9 +74,9 @@ class AuthenticationRepository {
 
       if (response.statusCode == HttpStatus.ok) {
         final json = jsonDecode(response.body) as Map<String, dynamic>;
-        final session = Session.fromJson(json);
+        final token = json['token'] as String?;
 
-        _sessionsSubject.add(session);
+        _sessionsSubject.add(token);
       } else {
         throw AuthenticationFailure(
           cause: 'Authentication failed',

@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:authentication_repository/authentication_repository.dart';
 import 'package:dart_frog/dart_frog.dart';
 import 'package:session_repository/session_repository.dart';
 import 'package:user_repository/user_repository.dart';
@@ -31,7 +32,14 @@ Future<Response> _onPost(RequestContext context) async {
 
   if (user != null) {
     final session = await sessionRepository.createSession(user.id);
-    return Response.json(body: session.toJson());
+
+    final authenticationRepository = context.read<AuthenticationRepository>();
+    final signedSession = authenticationRepository.sign(session.toJson());
+    return Response.json(
+      body: {
+        'token': signedSession,
+      },
+    );
   } else {
     return Response(statusCode: HttpStatus.unauthorized);
   }

@@ -64,7 +64,7 @@ void main() {
 
         expect(
           await authenticationRepository.session.first,
-          session,
+          equals(session.token),
         );
       });
 

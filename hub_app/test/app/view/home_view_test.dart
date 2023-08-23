@@ -3,7 +3,6 @@
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:hub_domain/hub_domain.dart';
 import 'package:mockingjay/mockingjay.dart';
 import 'package:very_good_hub/app/app.dart';
 
@@ -37,15 +36,7 @@ void main() {
       'renders the profile button when there is a session',
       (tester) async {
         mockState(
-          AppAuthenticated(
-            session: Session(
-              id: '1',
-              userId: '1',
-              token: 'token',
-              expiryDate: DateTime.now().add(const Duration(days: 1)),
-              createdAt: DateTime.now(),
-            ),
-          ),
+          AppAuthenticated(sessionToken: 'TOKEN_1'),
         );
         await tester.pumpSuject(appBloc: appBloc);
         expect(find.text('Profile.'), findsOneWidget);
@@ -56,15 +47,7 @@ void main() {
       'navigates to the profile page when the profile button is tapped',
       (tester) async {
         mockState(
-          AppAuthenticated(
-            session: Session(
-              id: '1',
-              userId: '1',
-              token: 'token',
-              expiryDate: DateTime.now().add(const Duration(days: 1)),
-              createdAt: DateTime.now(),
-            ),
-          ),
+          AppAuthenticated(sessionToken: 'TOKEN_1'),
         );
 
         final mockNavigator = MockNavigator();
