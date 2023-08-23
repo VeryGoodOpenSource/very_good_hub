@@ -91,24 +91,16 @@ void main() {
     });
 
     group('getUserSession', () {
-      final session = Session(
-        id: 'id',
-        token: 'token',
-        userId: 'userId',
-        createdAt: DateTime(2021),
-        expiryDate: DateTime(2021).subtract(const Duration(days: 1)),
-      );
-
       test('returns the user', () async {
         final response = _MockResponse();
         when(() => response.statusCode).thenReturn(HttpStatus.ok);
-        when(() => response.body).thenReturn(jsonEncode(session.toJson()));
+        when(() => response.body).thenReturn(jsonEncode({'token': 'TOKEN'}));
 
         when(() => apiClient.authenticatedGet('hub/session'))
             .thenAnswer((_) async => response);
 
         final result = await userRepository.getUserSession();
-        expect(result, equals(session));
+        expect(result, equals('TOKEN'));
       });
 
       test(

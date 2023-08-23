@@ -3,7 +3,6 @@
 import 'package:authentication_repository/authentication_repository.dart';
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:hub_domain/hub_domain.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:token_provider/token_provider.dart';
 import 'package:user_repository/user_repository.dart';
@@ -21,7 +20,6 @@ void main() {
     late AuthenticationRepository authenticationRepository;
     late UserRepository userRepository;
     late TokenProvider tokenProvider;
-    final now = DateTime.now();
 
     setUp(() {
       authenticationRepository = _MockAuthenticationRepository();
@@ -64,32 +62,16 @@ void main() {
       ),
       setUp: () {
         when(() => authenticationRepository.session).thenAnswer(
-          (_) => Stream.fromIterable(
-            [
-              Session(
-                id: 'mock-user-id',
-                userId: 'userId',
-                token: 'token',
-                createdAt: now,
-                expiryDate: now.add(const Duration(days: 1)),
-              ),
-            ],
-          ),
+          (_) => Stream.fromIterable(['TOKEN']),
         );
       },
       expect: () => [
         AppAuthenticated(
-          session: Session(
-            id: 'mock-user-id',
-            userId: 'userId',
-            token: 'token',
-            createdAt: now,
-            expiryDate: now.add(const Duration(days: 1)),
-          ),
+          sessionToken: 'TOKEN',
         ),
       ],
       verify: (_) {
-        verify(() => tokenProvider.applyToken('token')).called(1);
+        verify(() => tokenProvider.applyToken('TOKEN')).called(1);
       },
     );
 
@@ -101,13 +83,7 @@ void main() {
         tokenProvider: tokenProvider,
       ),
       seed: () => AppAuthenticated(
-        session: Session(
-          id: 'mock-user-id',
-          userId: 'userId',
-          token: 'token',
-          createdAt: now,
-          expiryDate: now.add(const Duration(days: 1)),
-        ),
+        sessionToken: 'TOKEN',
       ),
       setUp: () {
         when(() => authenticationRepository.session).thenAnswer(
@@ -134,24 +110,12 @@ void main() {
       setUp: () {
         when(() => tokenProvider.current).thenAnswer((_) async => 'token');
         when(userRepository.getUserSession).thenAnswer(
-          (_) async => Session(
-            id: 'mock-user-id',
-            userId: 'userId',
-            token: 'token',
-            createdAt: now,
-            expiryDate: now.add(const Duration(days: 1)),
-          ),
+          (_) async => 'TOKEN',
         );
       },
       expect: () => [
         AppAuthenticated(
-          session: Session(
-            id: 'mock-user-id',
-            userId: 'userId',
-            token: 'token',
-            createdAt: now,
-            expiryDate: now.add(const Duration(days: 1)),
-          ),
+          sessionToken: 'TOKEN',
         ),
       ],
     );

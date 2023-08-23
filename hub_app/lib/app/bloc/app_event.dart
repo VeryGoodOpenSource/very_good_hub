@@ -5,12 +5,12 @@ abstract class AppEvent extends Equatable {
 }
 
 class SessionLoaded extends AppEvent {
-  const SessionLoaded({required this.session});
+  const SessionLoaded({required this.sessionToken});
 
-  final Session session;
+  final String sessionToken;
 
   @override
-  List<Object> get props => [session];
+  List<Object> get props => [sessionToken];
 }
 
 class SessionLoggedOff extends AppEvent {

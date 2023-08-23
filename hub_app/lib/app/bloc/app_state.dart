@@ -12,10 +12,10 @@ class AppInitial extends AppState {
 }
 
 class AppAuthenticated extends AppState {
-  const AppAuthenticated({required this.session});
+  const AppAuthenticated({required this.sessionToken});
 
-  final Session session;
+  final String sessionToken;
 
   @override
-  List<Object> get props => [session];
+  List<Object> get props => [sessionToken];
 }

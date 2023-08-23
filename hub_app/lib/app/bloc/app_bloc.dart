@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:authentication_repository/authentication_repository.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:hub_domain/hub_domain.dart';
 import 'package:token_provider/token_provider.dart';
 import 'package:user_repository/user_repository.dart';
 
@@ -24,8 +23,8 @@ class AppBloc extends Bloc<AppEvent, AppState> {
 
     _sessionSubscription = _authenticationRepository.session.listen((event) {
       if (event != null) {
-        _tokenProvider.applyToken(event.token);
-        add(SessionLoaded(session: event));
+        _tokenProvider.applyToken(event);
+        add(SessionLoaded(sessionToken: event));
       } else {
         add(const SessionLoggedOff());
         _tokenProvider.clear();
@@ -35,7 +34,7 @@ class AppBloc extends Bloc<AppEvent, AppState> {
     tokenProvider.current.then((value) async {
       if (value != null) {
         final session = await _userRepository.getUserSession();
-        add(SessionLoaded(session: session));
+        add(SessionLoaded(sessionToken: session));
       }
     });
   }
@@ -43,13 +42,13 @@ class AppBloc extends Bloc<AppEvent, AppState> {
   final AuthenticationRepository _authenticationRepository;
   final UserRepository _userRepository;
   final TokenProvider _tokenProvider;
-  late StreamSubscription<Session?> _sessionSubscription;
+  late StreamSubscription<String?> _sessionSubscription;
 
   void _onSessionLoaded(
     SessionLoaded event,
     Emitter<AppState> emit,
   ) {
-    emit(AppAuthenticated(session: event.session));
+    emit(AppAuthenticated(sessionToken: event.sessionToken));
   }
 
   void _onSessionLoggedOff(

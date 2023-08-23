@@ -7,6 +7,8 @@ environment:
   sdk: ">=3.0.0 <4.0.0"
 
 dependencies:
+  authentication_repository:
+    path: packages/authentication_repository
   dart_frog: ^1.0.0
   dart_frog_auth: ^1.1.0
   db_client:

@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:authentication_repository/authentication_repository.dart';
 import 'package:dart_frog/dart_frog.dart';
 import 'package:hub_domain/hub_domain.dart';
 import 'package:mocktail/mocktail.dart';
@@ -17,12 +18,16 @@ class _MockUserRepository extends Mock implements UserRepository {}
 
 class _MockSessionRepository extends Mock implements SessionRepository {}
 
+class _MockAuthenticationRepository extends Mock
+    implements AuthenticationRepository {}
+
 void main() {
   group('POST /auth/sign_in', () {
     late RequestContext context;
     late Request request;
     late UserRepository userRepository;
     late SessionRepository sessionRepository;
+    late AuthenticationRepository authenticationRepository;
 
     setUp(() {
       context = _MockRequestContext();
@@ -34,9 +39,12 @@ void main() {
       sessionRepository = _MockSessionRepository();
       when(() => context.read<SessionRepository>())
           .thenReturn(sessionRepository);
+      authenticationRepository = _MockAuthenticationRepository();
+      when(() => context.read<AuthenticationRepository>())
+          .thenReturn(authenticationRepository);
     });
 
-    test('returns the session when everything passes', () async {
+    test('returns the signed session when everything passes', () async {
       when(() => request.json()).thenAnswer(
         (_) async => {
           'username': 'john.doe',
@@ -66,12 +74,15 @@ void main() {
         createdAt: now,
       );
 
+      when(() => authenticationRepository.sign(session.toJson()))
+          .thenReturn('super secured token');
+
       when(() => sessionRepository.createSession('1'))
           .thenAnswer((_) async => session);
 
       final response = await route.onRequest(context);
       final json = await response.json();
-      expect(json, equals(session.toJson()));
+      expect(json, equals({'token': 'super secured token'}));
     });
 
     test('returns 400 when username is missing', () async {
