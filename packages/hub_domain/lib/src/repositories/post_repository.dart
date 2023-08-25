@@ -6,7 +6,7 @@ enum CreatePostFailure {
   /// The post message is too long.
   tooLong,
 
-  /// The post message includes profanit.
+  /// The post message includes profanity.
   isProfane,
 
   /// Something unexpected happened while creating the post.
