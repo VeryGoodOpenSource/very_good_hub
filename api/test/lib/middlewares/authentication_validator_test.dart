@@ -79,21 +79,24 @@ void main() {
       expect(called, isTrue);
     });
 
-    test("don't call the handler when there is no authorization token", () async {
-      when(() => request.headers).thenReturn(
-        {},
-      );
+    test(
+      "don't call the handler when there is no authorization token",
+      () async {
+        when(() => request.headers).thenReturn(
+          {},
+        );
 
-      final middleware = authenticationValidator();
+        final middleware = authenticationValidator();
 
-      var called = false;
-      await middleware((_) {
-        called = true;
-        return Response();
-      })(context);
+        var called = false;
+        await middleware((_) {
+          called = true;
+          return Response();
+        })(context);
 
-      expect(called, isFalse);
-    });
+        expect(called, isFalse);
+      },
+    );
 
     test("don't call the handler when the token is not valid", () async {
       when(() => authenticationRepository.verify('TOKEN'))
