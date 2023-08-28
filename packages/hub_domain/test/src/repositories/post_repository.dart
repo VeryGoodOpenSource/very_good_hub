@@ -1,6 +1,5 @@
 import 'package:bad_words/bad_words.dart';
 import 'package:hub_domain/hub_domain.dart';
-import 'package:hub_domain/src/repositories/repositories.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:test/test.dart';
 
