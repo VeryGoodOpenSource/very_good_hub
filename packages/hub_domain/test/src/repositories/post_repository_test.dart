@@ -101,6 +101,35 @@ void main() {
           );
         },
       );
+
+      test(
+        'throws PostCreationFailure with unexpected error an unknown error '
+        'happens',
+        () {
+          when(() => filter.isProfane(any())).thenReturn(false);
+
+          when(
+            () => adapter.createPost(
+              userId: any(named: 'userId'),
+              message: any(named: 'message'),
+            ),
+          ).thenThrow(Exception());
+
+          expect(
+            () => repository.createPost(
+              userId: '',
+              message: '',
+            ),
+            throwsA(
+              isA<PostCreationFailure>().having(
+                (e) => e.reason,
+                'reason',
+                equals(CreatePostFailure.unexpected),
+              ),
+            ),
+          );
+        },
+      );
     });
 
     group('getPost', () {
