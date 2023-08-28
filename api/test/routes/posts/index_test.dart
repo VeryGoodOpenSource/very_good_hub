@@ -140,6 +140,36 @@ void main() {
     );
 
     test(
+      'returns bad request when no message is provided',
+      () async {
+        final now = DateTime.now();
+        final session = ApiSession(
+          user: const User(
+            id: 'id',
+            username: 'username',
+            name: 'name',
+          ),
+          session: Session(
+            id: '',
+            token: '',
+            userId: '',
+            expiryDate: now,
+            createdAt: now,
+          ),
+        );
+
+        when(() => requestContext.read<ApiSession>()).thenReturn(session);
+        when(() => request.json()).thenAnswer(
+          (_) async => <String, dynamic>{},
+        );
+
+        final response = await route.onRequest(requestContext);
+
+        expect(response.statusCode, equals(HttpStatus.badRequest));
+      },
+    );
+
+    test(
       'returns internal server error when it is an unknow error',
       () async {
         final now = DateTime.now();
@@ -184,6 +214,16 @@ void main() {
             ),
           ),
         );
+      },
+    );
+
+    test(
+      'returns 405 when the method is not allowed',
+      () async {
+        when(() => request.method).thenReturn(HttpMethod.get);
+        final response = await route.onRequest(requestContext);
+
+        expect(response.statusCode, equals(HttpStatus.methodNotAllowed));
       },
     );
   });
