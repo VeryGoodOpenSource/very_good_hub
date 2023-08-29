@@ -1,6 +1,5 @@
 import 'package:bad_words/bad_words.dart';
 import 'package:hub_domain/hub_domain.dart';
-import 'package:hub_domain/src/repositories/repositories.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:test/test.dart';
 
@@ -97,6 +96,35 @@ void main() {
                 (e) => e.reason,
                 'reason',
                 equals(CreatePostFailure.isProfane),
+              ),
+            ),
+          );
+        },
+      );
+
+      test(
+        'throws PostCreationFailure with unexpected error an unknown error '
+        'happens',
+        () {
+          when(() => filter.isProfane(any())).thenReturn(false);
+
+          when(
+            () => adapter.createPost(
+              userId: any(named: 'userId'),
+              message: any(named: 'message'),
+            ),
+          ).thenThrow(Exception());
+
+          expect(
+            () => repository.createPost(
+              userId: '',
+              message: '',
+            ),
+            throwsA(
+              isA<PostCreationFailure>().having(
+                (e) => e.reason,
+                'reason',
+                equals(CreatePostFailure.unexpected),
               ),
             ),
           );
