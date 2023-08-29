@@ -6,7 +6,7 @@ import 'package:mocktail/mocktail.dart';
 import 'package:test/test.dart';
 import 'package:very_good_hub_api/models/models.dart';
 
-import '../../../routes/hub/posts/../../../routes/hub/posts/index.dart'
+import '../../../routes/hub/posts/index.dart' as route;
     as route;
 
 class _MockRequestContext extends Mock implements RequestContext {}
@@ -87,7 +87,7 @@ void main() {
     });
 
     test(
-      'returns bad request with the error when it is a expected one',
+      'returns bad request with the error when it is an expected one',
       () async {
         final now = DateTime.now();
         final session = ApiSession(
