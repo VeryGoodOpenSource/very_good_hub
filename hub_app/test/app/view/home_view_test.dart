@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:bloc_test/bloc_test.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockingjay/mockingjay.dart';
@@ -55,6 +56,27 @@ void main() {
 
         await tester.pumpSuject(appBloc: appBloc, mockNavigator: mockNavigator);
         await tester.tap(find.text('Profile.'));
+
+        await tester.pump();
+
+        verify(
+          () => mockNavigator.push<void>(any()),
+        ).called(1);
+      },
+    );
+
+    testWidgets(
+      'shows the create post dialog when FAB is pressed',
+      (tester) async {
+        mockState(
+          AppAuthenticated(sessionToken: 'TOKEN_1'),
+        );
+
+        final mockNavigator = MockNavigator();
+        when(() => mockNavigator.push<void>(any())).thenAnswer((_) async {});
+
+        await tester.pumpSuject(appBloc: appBloc, mockNavigator: mockNavigator);
+        await tester.tap(find.byType(FloatingActionButton));
 
         await tester.pump();
 

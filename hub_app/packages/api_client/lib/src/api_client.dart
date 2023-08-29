@@ -72,4 +72,28 @@ class ApiClient {
 
     return _post(url, body: body, headers: headers);
   }
+
+  /// Does an authenticated post request.
+  Future<http.Response> authenticatedPost(
+    String path, {
+    Object? body,
+    Map<String, String>? headers,
+  }) async {
+    final token = await _tokenProvider.current;
+
+    if (token == null) {
+      return Response('', HttpStatus.unauthorized);
+    }
+
+    final url = Uri.parse('$_baseUrl/$path');
+
+    return _post(
+      url,
+      body: body,
+      headers: {
+        ...?headers,
+        'Authorization': 'Bearer $token',
+      },
+    );
+  }
 }

@@ -114,7 +114,7 @@ void main() {
         );
       });
 
-      test('returns unauthorized when there is no token', () async {
+      test('get returns unauthorized when there is no token', () async {
         final response = _MockResponse();
         when(
           () => httpClient.get(
@@ -127,6 +127,82 @@ void main() {
         when(() => tokenProvider.current).thenAnswer((_) async => null);
 
         final result = await apiClient.authenticatedGet('path');
+
+        expect(result.statusCode, equals(HttpStatus.unauthorized));
+      });
+
+      test('can do a post request', () async {
+        final response = _MockResponse();
+        when(
+          () => httpClient.post(
+            any(),
+            headers: any(
+              named: 'headers',
+            ),
+            body: any(named: 'body'),
+          ),
+        ).thenAnswer((_) async => response);
+        when(() => tokenProvider.current).thenAnswer((_) async => 'token');
+
+        final result = await apiClient.authenticatedPost('path');
+
+        expect(result, equals(response));
+        verify(
+          () => httpClient.post(
+            Uri.parse('https://example.com/path'),
+            headers: {
+              'Authorization': 'Bearer token',
+            },
+          ),
+        );
+      });
+
+      test('post forward the informed headers', () async {
+        final response = _MockResponse();
+        when(
+          () => httpClient.post(
+            any(),
+            headers: any(
+              named: 'headers',
+            ),
+            body: any(named: 'body'),
+          ),
+        ).thenAnswer((_) async => response);
+        when(() => tokenProvider.current).thenAnswer((_) async => 'token');
+
+        final result = await apiClient.authenticatedPost(
+          'path',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        );
+
+        expect(result, equals(response));
+        verify(
+          () => httpClient.post(
+            Uri.parse('https://example.com/path'),
+            headers: {
+              'Authorization': 'Bearer token',
+              'Content-Type': 'application/json',
+            },
+          ),
+        );
+      });
+
+      test('post returns unauthorized when there is no token', () async {
+        final response = _MockResponse();
+        when(
+          () => httpClient.post(
+            any(),
+            headers: any(
+              named: 'headers',
+            ),
+            body: any(named: 'body'),
+          ),
+        ).thenAnswer((_) async => response);
+        when(() => tokenProvider.current).thenAnswer((_) async => null);
+
+        final result = await apiClient.authenticatedPost('path');
 
         expect(result.statusCode, equals(HttpStatus.unauthorized));
       });

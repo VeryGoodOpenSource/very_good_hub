@@ -1,7 +1,9 @@
 import 'package:api_client/api_client.dart';
 import 'package:authentication_repository/authentication_repository.dart';
+import 'package:hub_domain/hub_domain.dart';
 import 'package:token_provider/token_provider.dart';
 import 'package:user_repository/user_repository.dart';
+import 'package:very_good_hub/adapters/adapters.dart';
 import 'package:very_good_hub/app/app.dart';
 import 'package:very_good_hub/bootstrap.dart';
 import 'package:very_good_hub/token_provider_storage/token_provider_storage.dart';
@@ -22,6 +24,11 @@ void main() {
     () => App(
       authenticationRepository: AuthenticationRepository(
         apiClient: apiClient,
+      ),
+      postRepository: PostRepository(
+        adapter: HubPostRepositoryAdapter(
+          apiClient: apiClient,
+        ),
       ),
       userRepository: UserRepository(
         apiClient: apiClient,
