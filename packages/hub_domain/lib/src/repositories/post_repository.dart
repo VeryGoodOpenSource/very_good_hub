@@ -3,6 +3,9 @@ import 'package:hub_domain/src/models/models.dart';
 
 /// Enum for the possible expected failures when creating a post.
 enum CreatePostFailure {
+  /// The message is empty.
+  empty,
+
   /// The post message is too long.
   tooLong,
 
@@ -64,6 +67,13 @@ class PostRepository {
     required String userId,
     required String message,
   }) {
+    if (message.isEmpty) {
+      throw PostCreationFailure(
+        CreatePostFailure.empty,
+        StackTrace.current,
+      );
+    }
+
     if (message.length > 280) {
       throw PostCreationFailure(
         CreatePostFailure.tooLong,

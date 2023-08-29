@@ -17,10 +17,13 @@ Future<Response> _onPost(RequestContext context) async {
 
   final body = await context.request.json() as Map<String, dynamic>;
 
+  final userId = body['userId'] as String?;
   final postMessage = body['message'] as String?;
 
-  if (postMessage == null) {
+  if (postMessage == null || userId == null) {
     return Response(statusCode: HttpStatus.badRequest);
+  } else if (userId != apiSession.user.id) {
+    return Response(statusCode: HttpStatus.forbidden);
   } else {
     try {
       final post = await postRepository.createPost(
