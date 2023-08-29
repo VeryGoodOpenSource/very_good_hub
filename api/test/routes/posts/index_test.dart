@@ -7,7 +7,6 @@ import 'package:test/test.dart';
 import 'package:very_good_hub_api/models/models.dart';
 
 import '../../../routes/hub/posts/index.dart' as route;
-    as route;
 
 class _MockRequestContext extends Mock implements RequestContext {}
 
