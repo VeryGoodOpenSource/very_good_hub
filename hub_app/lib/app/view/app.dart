@@ -6,6 +6,7 @@ import 'package:token_provider/token_provider.dart';
 import 'package:user_repository/user_repository.dart';
 import 'package:very_good_hub/app/app.dart';
 import 'package:very_good_hub/auth/auth.dart';
+import 'package:very_good_hub/home/home.dart';
 import 'package:very_good_hub/l10n/l10n.dart';
 
 class App extends StatelessWidget {
@@ -55,7 +56,7 @@ class App extends StatelessWidget {
             builder: (context) {
               final appState = context.watch<AppBloc>().state;
               return (appState is AppAuthenticated)
-                  ? const HomeView()
+                  ? const HomePage()
                   : const AuthPage();
             },
           ),

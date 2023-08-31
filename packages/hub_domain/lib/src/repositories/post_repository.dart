@@ -44,6 +44,9 @@ abstract class PostRepositoryAdapter {
   Future<Post?> getPost({
     required String postId,
   });
+
+  /// Gets a list of posts for the home feed.
+  Future<List<Post>> listHomePosts();
 }
 
 /// {@template post_repository}
@@ -106,4 +109,7 @@ class PostRepository {
     required String postId,
   }) =>
       _adapter.getPost(postId: postId);
+
+  /// Gets a list of posts for the home feed.
+  Future<List<Post>> listHomePosts() => _adapter.listHomePosts();
 }

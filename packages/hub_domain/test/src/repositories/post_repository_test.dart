@@ -169,5 +169,17 @@ void main() {
         expect(result, equals(post));
       });
     });
+
+    group('listHomePosts', () {
+      test('returns the list of posts in the home', () async {
+        when(
+          adapter.listHomePosts,
+        ).thenAnswer((_) async => [post]);
+
+        final result = await repository.listHomePosts();
+
+        expect(result, equals([post]));
+      });
+    });
   });
 }

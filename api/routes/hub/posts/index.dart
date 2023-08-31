@@ -7,8 +7,18 @@ import 'package:very_good_hub_api/models/models.dart';
 Future<Response> onRequest(RequestContext context) async {
   return switch (context.request.method) {
     HttpMethod.post => _onPost(context),
+    HttpMethod.get => _onGet(context),
     _ => Future.value(Response(statusCode: HttpStatus.methodNotAllowed)),
   };
+}
+
+Future<Response> _onGet(RequestContext context) async {
+  final postRepository = context.read<PostRepository>();
+
+  final posts = await postRepository.listHomePosts();
+  return Response.json(
+    body: posts.map((post) => post.toJson()).toList(),
+  );
 }
 
 Future<Response> _onPost(RequestContext context) async {
