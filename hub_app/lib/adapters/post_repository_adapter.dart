@@ -5,7 +5,7 @@ import 'package:api_client/api_client.dart';
 import 'package:hub_domain/hub_domain.dart';
 
 /// {@template hub_post_repository_adapter}
-/// Impplementation of [PostRepository] that uses the Hub API.
+/// Implementation of [PostRepository] that uses the Hub API.
 /// {@endtemplate}
 class HubPostRepositoryAdapter extends PostRepositoryAdapter {
   /// {@macro hub_post_repository_adapter}
