@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:very_good_hub/app/app.dart';
+import 'package:very_good_hub/create_post/create_post.dart';
 import 'package:very_good_hub/l10n/l10n.dart';
 import 'package:very_good_hub/profile/profile.dart';
 
@@ -24,6 +25,14 @@ class HomeView extends StatelessWidget {
             },
             child: Text(l10n.profile),
           ),
+        ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            Navigator.of(context).push(
+              CreatePostPage.show(context),
+            );
+          },
+          child: const Icon(Icons.add),
         ),
       );
     } else {

@@ -52,11 +52,33 @@ void main() {
 
         final result = await repository.createPost(
           userId: '',
-          message: '',
+          message: 'a',
         );
 
         expect(result, equals(post));
       });
+
+      test(
+        'throws PostCreationFailure with empty or when the message is '
+        'empty',
+        () {
+          when(() => filter.isProfane(any())).thenReturn(false);
+
+          expect(
+            () => repository.createPost(
+              userId: '',
+              message: '',
+            ),
+            throwsA(
+              isA<PostCreationFailure>().having(
+                (e) => e.reason,
+                'reason',
+                equals(CreatePostFailure.empty),
+              ),
+            ),
+          );
+        },
+      );
 
       test(
         'throws PostCreationFailure with too long error when the message is '
@@ -89,7 +111,7 @@ void main() {
           expect(
             () => repository.createPost(
               userId: '',
-              message: '',
+              message: 'a',
             ),
             throwsA(
               isA<PostCreationFailure>().having(
@@ -118,7 +140,7 @@ void main() {
           expect(
             () => repository.createPost(
               userId: '',
-              message: '',
+              message: 'a',
             ),
             throwsA(
               isA<PostCreationFailure>().having(

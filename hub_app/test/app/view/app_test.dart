@@ -1,5 +1,6 @@
 import 'package:authentication_repository/authentication_repository.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:hub_domain/hub_domain.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:token_provider/token_provider.dart';
 import 'package:user_repository/user_repository.dart';
@@ -12,6 +13,8 @@ class _MockAuthenticationRepository extends Mock
 class _MockUserRepository extends Mock implements UserRepository {}
 
 class _MockTokenProvider extends Mock implements TokenProvider {}
+
+class _MockPostRepository extends Mock implements PostRepository {}
 
 void main() {
   group('App', () {
@@ -32,6 +35,7 @@ void main() {
         App(
           authenticationRepository: authenticationRepository,
           userRepository: _MockUserRepository(),
+          postRepository: _MockPostRepository(),
           tokenProvider: tokenProvider,
         ),
       );

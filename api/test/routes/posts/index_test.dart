@@ -66,6 +66,7 @@ void main() {
       when(() => request.json()).thenAnswer(
         (_) async => {
           'message': 'message',
+          'userId': 'id',
         },
       );
 
@@ -119,6 +120,7 @@ void main() {
         when(() => request.json()).thenAnswer(
           (_) async => {
             'message': 'message',
+            'userId': 'id',
           },
         );
 
@@ -159,12 +161,79 @@ void main() {
 
         when(() => requestContext.read<ApiSession>()).thenReturn(session);
         when(() => request.json()).thenAnswer(
-          (_) async => <String, dynamic>{},
+          (_) async => <String, dynamic>{
+            'userId': 'id',
+          },
         );
 
         final response = await route.onRequest(requestContext);
 
         expect(response.statusCode, equals(HttpStatus.badRequest));
+      },
+    );
+
+    test(
+      'returns bad request when no user id is provided',
+      () async {
+        final now = DateTime.now();
+        final session = ApiSession(
+          user: const User(
+            id: 'id',
+            username: 'username',
+            name: 'name',
+          ),
+          session: Session(
+            id: '',
+            token: '',
+            userId: '',
+            expiryDate: now,
+            createdAt: now,
+          ),
+        );
+
+        when(() => requestContext.read<ApiSession>()).thenReturn(session);
+        when(() => request.json()).thenAnswer(
+          (_) async => <String, dynamic>{
+            'message': 'message',
+          },
+        );
+
+        final response = await route.onRequest(requestContext);
+
+        expect(response.statusCode, equals(HttpStatus.badRequest));
+      },
+    );
+
+    test(
+      'returns forbidden when the user id is not the same of the session',
+      () async {
+        final now = DateTime.now();
+        final session = ApiSession(
+          user: const User(
+            id: 'id',
+            username: 'username',
+            name: 'name',
+          ),
+          session: Session(
+            id: '',
+            token: '',
+            userId: '',
+            expiryDate: now,
+            createdAt: now,
+          ),
+        );
+
+        when(() => requestContext.read<ApiSession>()).thenReturn(session);
+        when(() => request.json()).thenAnswer(
+          (_) async => <String, dynamic>{
+            'message': 'message',
+            'userId': 'otherId',
+          },
+        );
+
+        final response = await route.onRequest(requestContext);
+
+        expect(response.statusCode, equals(HttpStatus.forbidden));
       },
     );
 
@@ -197,6 +266,7 @@ void main() {
         when(() => request.json()).thenAnswer(
           (_) async => {
             'message': 'message',
+            'userId': 'id',
           },
         );
 

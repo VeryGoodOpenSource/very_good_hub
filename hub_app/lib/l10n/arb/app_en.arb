@@ -68,5 +68,33 @@
     "somethingWentWrong": "Something went wrong.",
     "@somethingWentWrong": {
         "description": "Generic message for errors."
+    },
+    "message": "Message",
+    "@message": {
+        "description": "Message label."
+    },
+    "confirm": "Confirm",
+    "@confirm": {
+        "description": "Confirm label."
+    },
+    "cancel": "Cancel",
+    "@cancel": {
+        "description": "Cancel label."
+    },
+    "messageIsEmpty": "Message is empty",
+    "@messageIsEmpty": {
+        "description": "Empty message error."
+    },
+    "messageIsTooLong": "Message is too long",
+    "@messageIsTooLong": {
+        "description": "Message is too long error."
+    },
+    "noProfaneWords": "Please, don't include profane words",
+    "@noProfaneWords": {
+        "description": "No profrane words message"
+    },
+    "postCreated": "Post created",
+    "@postCreated": {
+        "description": "Post created message"
     }
 }
