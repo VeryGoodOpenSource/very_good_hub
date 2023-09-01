@@ -103,6 +103,22 @@ void main() {
     );
 
     testWidgets(
+      'renders the error snack bar when there is an error',
+      (tester) async {
+        mockAppState(
+          AppAuthenticated(sessionToken: 'TOKEN_1'),
+        );
+        mockHomeState(HomeState(status: HomeStateStatus.error));
+        await tester.pumpSuject(
+          appBloc: appBloc,
+          homeBloc: homeBloc,
+        );
+        await tester.pump();
+        expect(find.text('Something went wrong.'), findsOneWidget);
+      },
+    );
+
+    testWidgets(
       'navigates to the profile page when the profile button is tapped',
       (tester) async {
         mockAppState(

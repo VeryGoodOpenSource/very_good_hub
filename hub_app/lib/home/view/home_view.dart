@@ -19,55 +19,66 @@ class HomeView extends StatelessWidget {
     final homeState = homeBloc.state;
 
     if (appState is AppAuthenticated) {
-      return Scaffold(
-        body: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Align(
-              alignment: Alignment.centerRight,
-              child: Padding(
-                padding: const EdgeInsets.all(8),
-                child: ElevatedButton(
-                  onPressed: () {
-                    Navigator.of(context).push(
-                      ProfilePage.route(),
-                    );
-                  },
-                  child: Text(l10n.profile),
+      return BlocListener<HomeBloc, HomeState>(
+        listener: (context, state) {
+          if (state.status == HomeStateStatus.error) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text(l10n.somethingWentWrong),
+              ),
+            );
+          }
+        },
+        child: Scaffold(
+          body: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Align(
+                alignment: Alignment.centerRight,
+                child: Padding(
+                  padding: const EdgeInsets.all(8),
+                  child: ElevatedButton(
+                    onPressed: () {
+                      Navigator.of(context).push(
+                        ProfilePage.route(),
+                      );
+                    },
+                    child: Text(l10n.profile),
+                  ),
                 ),
               ),
-            ),
-            Expanded(
-              child: Column(
-                children: [
-                  for (final post in homeState.posts)
-                    Card(
-                      child: ConstrainedBox(
-                        constraints: const BoxConstraints(
-                          minHeight: 80,
-                          minWidth: 450,
-                          maxWidth: 450,
+              Expanded(
+                child: Column(
+                  children: [
+                    for (final post in homeState.posts)
+                      Card(
+                        child: ConstrainedBox(
+                          constraints: const BoxConstraints(
+                            minHeight: 80,
+                            minWidth: 450,
+                            maxWidth: 450,
+                          ),
+                          child: Center(child: Text(post.message)),
                         ),
-                        child: Center(child: Text(post.message)),
                       ),
-                    ),
-                ],
+                  ],
+                ),
               ),
-            ),
-          ],
-        ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () async {
-            final bloc = context.read<HomeBloc>();
-            final post = await Navigator.of(context).push(
-              CreatePostPage.show(context),
-            );
+            ],
+          ),
+          floatingActionButton: FloatingActionButton(
+            onPressed: () async {
+              final bloc = context.read<HomeBloc>();
+              final post = await Navigator.of(context).push(
+                CreatePostPage.show(context),
+              );
 
-            if (post != null) {
-              bloc.add(HomeEventInserted(post));
-            }
-          },
-          child: const Icon(Icons.add),
+              if (post != null) {
+                bloc.add(HomeEventInserted(post));
+              }
+            },
+            child: const Icon(Icons.add),
+          ),
         ),
       );
     } else {
