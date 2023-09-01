@@ -20,9 +20,14 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     HomeEventLoaded event,
     Emitter<HomeState> emit,
   ) async {
-    emit(state.copyWith(loading: true));
-    final posts = await _postRepository.listHomePosts();
-    emit(state.copyWith(posts: posts, loading: false));
+    try {
+      emit(state.copyWith(status: HomeStateStatus.loading));
+      final posts = await _postRepository.listHomePosts();
+      emit(state.copyWith(posts: posts, status: HomeStateStatus.loaded));
+    } catch (e, s) {
+      addError(e, s);
+      emit(state.copyWith(status: HomeStateStatus.error));
+    }
   }
 
   Future<void> _onInserted(

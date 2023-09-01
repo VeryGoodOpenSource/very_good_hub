@@ -37,7 +37,7 @@ void main() {
       },
       act: (bloc) => bloc.add(HomeEventLoaded()),
       expect: () => [
-        HomeState(loading: true),
+        HomeState(status: HomeStateStatus.loading),
         HomeState(
           posts: const [
             Post(
@@ -46,6 +46,24 @@ void main() {
               userId: '',
             ),
           ],
+          status: HomeStateStatus.loaded,
+        ),
+      ],
+    );
+
+    blocTest<HomeBloc, HomeState>(
+      'emit error when something goes wrong on HomeEventLoaded',
+      build: () => HomeBloc(postRepository: postRepository),
+      setUp: () {
+        when(postRepository.listHomePosts).thenThrow(
+          Exception('oops'),
+        );
+      },
+      act: (bloc) => bloc.add(HomeEventLoaded()),
+      expect: () => [
+        HomeState(status: HomeStateStatus.loading),
+        HomeState(
+          status: HomeStateStatus.error,
         ),
       ],
     );

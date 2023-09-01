@@ -34,7 +34,7 @@ void main() {
         HomeState(),
         isNot(
           equals(
-            HomeState(loading: true),
+            HomeState(status: HomeStateStatus.loading),
           ),
         ),
       );
@@ -50,10 +50,10 @@ void main() {
             message: '',
           ),
         ],
-        loading: true,
+        status: HomeStateStatus.loading,
       );
       expect(copy.posts, isNot(equals(state.posts)));
-      expect(copy.loading, isNot(equals(state.loading)));
+      expect(copy.status, isNot(equals(state.status)));
     });
   });
 }
