@@ -46,4 +46,21 @@ class HubPostRepositoryAdapter extends PostRepositoryAdapter {
   Future<Post?> getPost({required String postId}) {
     throw UnimplementedError();
   }
+
+  @override
+  Future<List<Post>> listHomePosts() async {
+    final response = await _apiClient.authenticatedGet(
+      'hub/posts',
+    );
+
+    if (response.statusCode != HttpStatus.ok) {
+      throw HttpException(
+        'Invalid response code: ${response.statusCode}',
+        uri: response.request?.url,
+      );
+    }
+
+    final json = jsonDecode(response.body) as List<dynamic>;
+    return json.map((e) => Post.fromJson(e as Map<String, dynamic>)).toList();
+  }
 }

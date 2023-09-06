@@ -43,4 +43,15 @@ class APIPostRepositoryAdapter extends PostRepositoryAdapter {
 
     return Post.fromJson(data);
   }
+
+  @override
+  Future<List<Post>> listHomePosts() async {
+    var counter = 0;
+    final result = await _dbClient.find(
+      _tableName,
+      (post) => counter++ < 10,
+    );
+
+    return result.map(Post.fromJson).toList();
+  }
 }

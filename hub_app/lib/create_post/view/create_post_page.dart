@@ -7,10 +7,10 @@ import 'package:very_good_hub/create_post/create_post.dart';
 class CreatePostPage extends StatelessWidget {
   const CreatePostPage({super.key});
 
-  static Route<void> show(
+  static Route<Post?> show(
     BuildContext context,
   ) {
-    return DialogRoute<void>(
+    return DialogRoute<Post?>(
       context: context,
       builder: (_) => BlocProvider<CreatePostBloc>(
         create: (_) => CreatePostBloc(

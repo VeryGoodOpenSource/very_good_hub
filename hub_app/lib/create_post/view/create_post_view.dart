@@ -29,7 +29,7 @@ class _CreatePostViewState extends State<CreatePostView> {
                   content: Text(l10n.postCreated),
                 ),
               );
-              Navigator.of(context).pop();
+              Navigator.of(context).pop(state.post);
             }
           },
           builder: (context, state) => Center(
